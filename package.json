@@ -1,0 +1,32 @@
+{
+  "name": "uis-ptit-crawler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "",
+    "build": "tsc",
+    "dev": "ts-node src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mccor2000/uis-ptit-crawler.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mccor2000/uis-ptit-crawler/issues"
+  },
+  "homepage": "https://github.com/mccor2000/uis-ptit-crawler#readme",
+  "dependencies": {
+    "mongoose": "^5.10.7",
+    "puppeteer": "^5.3.1"
+  },
+  "devDependencies": {
+    "@types/mongoose": "^5.7.36",
+    "@types/node": "^14.11.2",
+    "@types/puppeteer": "^3.0.2",
+    "ts-node": "^9.0.0"
+  }
+}
