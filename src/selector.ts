@@ -94,7 +94,7 @@ export default {
     }) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(15) > a`;
   },
 
-  STUDENT_LIST: "#ctl00_ContentPlaceHolder1_ctl00_gvDSSinhVien",
+  STUDENT_LIST: ".navigate-base > fieldset:nth-child(3)",
   STUDENT_INFO:
     "#ctl00_ContentPlaceHolder1_ctl00_gvDSSinhVien > tbody:nth-child(1) > tr",
   STUDENT_ID: (i: number) => {
