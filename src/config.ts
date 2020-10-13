@@ -8,6 +8,7 @@ export default {
       useCreateIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useFindAndModify: true,
     },
   },
   url: process.env.URL || "",
