@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 
 export const RegularClassSchema = new Schema({
-  classID: {
+  _id: {
     type: String,
     required: true,
   },

@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 
 export const StudentSchema = new Schema({
-  studentID: {
+  _id: {
     type: String,
     required: true,
   },

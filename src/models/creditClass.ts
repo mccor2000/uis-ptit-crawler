@@ -1,6 +1,10 @@
 import { Schema, model } from "mongoose";
 
 export const CreditClassSchema = new Schema({
+  _id: {
+    type: String,
+    required: true,
+  },
   subjectCode: {
     type: String,
     required: true,
