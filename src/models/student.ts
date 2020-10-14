@@ -1,7 +1,15 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Document } from "mongoose";
+
+export interface Student extends Document {
+  studentId: string;
+  firstName: string;
+  lastName: string;
+  classId: string;
+  joinedClasses: [string];
+}
 
 export const StudentSchema = new Schema({
-  studentID: {
+  studentId: {
     type: String,
     required: true,
   },
@@ -16,17 +24,15 @@ export const StudentSchema = new Schema({
     required: true,
   },
 
-  classID: {
+  classId: {
     type: String,
     required: true,
   },
 
-  joinedClasses: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "subject",
-    },
-  ],
+  joinedClasses: {
+    type: [String],
+    default: [],
+  },
 });
 
 export const StudentModel = model("student", StudentSchema, "students");

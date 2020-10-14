@@ -6,7 +6,8 @@ import {
   getContentFromElements,
   getAttributeFromElement,
 } from "./utils";
-import { CreditClass, RegularClass } from "./models";
+
+import { CreditClassModel, StudentModel } from "./models";
 
 const getStudentList = async (page: puppeteer.Page) => {
   const studentElements = await page.$$(selector.STUDENT_INFO);
@@ -14,7 +15,7 @@ const getStudentList = async (page: puppeteer.Page) => {
   let students = [];
   for (let i = 1; i < studentElements.length; i++) {
     const student = {
-      studentID: await getContentFromElement(
+      studentId: await getContentFromElement(
         selector.STUDENT_ID(i),
         studentElements[i]
       ),
@@ -26,7 +27,7 @@ const getStudentList = async (page: puppeteer.Page) => {
         selector.STUDENT_LAST_NAME(i),
         studentElements[i]
       ),
-      classID: await getContentFromElement(
+      classId: await getContentFromElement(
         selector.STUDENT_CLASS_ID(i),
         studentElements[i]
       ),
@@ -37,70 +38,96 @@ const getStudentList = async (page: puppeteer.Page) => {
   return Promise.all(students);
 };
 
+const getRegularClasses = async (page: puppeteer.Page) => {
+  await page.waitForSelector(selector.FILTER_FORM);
+
+  await page.select(selector.FILTER_FORM_TYPE, "l");
+
+  await page.waitForSelector(selector.FILTER_FORM_CLASS);
+
+  return getContentFromElements(`${selector.FILTER_FORM_CLASS} > option`, page);
+};
+
 const getCreditClasses = async (page: puppeteer.Page) => {
   const classElements = await page.$$(selector.CREDIT_CLASS);
 
   const classesData = classElements.map(async (elementHandle, i) => {
-    const subjectCode = await getContentFromElement(
+    const subjectId = await getContentFromElement(
       selector.CLASS_SUBJECT_CODE(i),
       elementHandle
     );
+
     const subjectTitle = await getContentFromElement(
       selector.CLASS_SUBJECT_TITLE(i),
       elementHandle
     );
+
     const group = await getContentFromElement(
       selector.CLASS_SUBJECT_GROUP(i),
       elementHandle
     );
-    const credit = await getContentFromElement(
+
+    const credits = await getContentFromElement(
       selector.CLASS_SUBJECT_CREDIT(i),
       elementHandle
     );
+
     const classes = await getContentFromElement(
       selector.CLASS_CLASSES(i),
       elementHandle
     );
+
     const day = await getContentFromElement(
       selector.CLASS_DAY(i),
       elementHandle
     );
+
     const day2 = await getContentFromElement(
       selector.CLASS_DAY_2(i),
       elementHandle
     );
+
     const startTime = await getContentFromElement(
       selector.CLASS_START_TIME(i),
       elementHandle
     );
+
     const startTime2 = await getContentFromElement(
       selector.CLASS_START_TIME_2(i),
       elementHandle
     );
+
     const duration = await getContentFromElement(
       selector.CLASS_DURATION(i),
       elementHandle
     );
+
     const duration2 = await getContentFromElement(
       selector.CLASS_DURATION(i),
       elementHandle
     );
+
     const room = await getContentFromElement(
       selector.CLASS_ROOM(i),
       elementHandle
     );
+
     const room2 = await getContentFromElement(
       selector.CLASS_ROOM_2(i),
       elementHandle
     );
+
     const startEndDate = await getContentFromElement(
       selector.CLASS_START_END_DATE(i),
       elementHandle
     );
+
     const startEndDate2 = await getContentFromElement(
       selector.CLASS_START_END_DATE_2(i),
       elementHandle
     );
+
+    await page.waitForSelector(selector.CLASS_STUDENT_LIST_URL(i));
     const studentListUrl = await getAttributeFromElement(
       page,
       selector.CLASS_STUDENT_LIST_URL(i),
@@ -119,10 +146,11 @@ const getCreditClasses = async (page: puppeteer.Page) => {
     ];
 
     return {
-      subjectCode,
+      classId: studentListUrl.split("=")[studentListUrl.split("=").length - 1],
+      subjectId,
       subjectTitle,
       group,
-      credit,
+      credits,
       classes,
       schedule: schedule
         .filter((ele) => !Object.values(ele).every((prop) => prop === ""))
@@ -137,51 +165,75 @@ const getCreditClasses = async (page: puppeteer.Page) => {
       studentListUrl,
     };
   });
+  console.log(`done`);
 
   return Promise.all(classesData);
 };
 
 export default async (page: puppeteer.Page, browser: puppeteer.Browser) => {
-  await page.waitFor(selector.FILTER_FORM);
-  await page.select(selector.FILTER_FORM_TYPE, "l");
-  await page.waitFor(selector.FILTER_FORM_CLASS);
-
-  const classes = await getContentFromElements(
-    `${selector.FILTER_FORM_CLASS} > option`,
-    page
-  );
+  const classes = await getRegularClasses(page);
 
   for (const cl of classes!) {
-    console.log("get in");
+    console.log(`Crawl credit classes from class ${cl}..`);
+
     await page.select(selector.FILTER_FORM_CLASS, cl);
+
     await page.click(selector.FILTER_FORM_SUBMIT);
-    await page.waitFor(selector.CREDIT_CLASS);
+
+    await page.waitForSelector(selector.CREDIT_CLASS);
 
     const creditClasses = await getCreditClasses(page);
 
-    await RegularClass.create({ classID: cl });
-    await CreditClass.create(
-      await Promise.all(
-        creditClasses.map(async (crCl) => {
-          console.log(crCl);
-          const newPage = await browser.newPage();
-          console.log(crCl.studentListUrl);
-          await newPage.goto(crCl.studentListUrl);
-          await newPage.waitFor(selector.STUDENT_LIST);
-          const students = await getStudentList(newPage);
-          await newPage.close();
+    await Promise.all(
+      creditClasses.map(async (crCl) => {
+        const newPage = await browser.newPage();
 
-          return {
-            subjectCode: crCl.subjectCode,
+        await newPage.goto(crCl.studentListUrl);
+
+        await newPage.waitForSelector(selector.STUDENT_LIST);
+
+        const students = await getStudentList(newPage);
+
+        await Promise.all(
+          students.map((student) =>
+            StudentModel.findOneAndUpdate(
+              { studentId: student.studentId },
+              {
+                $set: {
+                  studentId: student.studentId,
+                  firstName: student.firstName,
+                  lastName: student.lastName,
+                  classId: student.classId,
+                },
+                $push: {
+                  joinedClasses: crCl.classId,
+                },
+              },
+              {
+                upsert: true,
+                setDefaultsOnInsert: true,
+              }
+            )
+          )
+        );
+
+        await newPage.close();
+
+        return CreditClassModel.findOneAndUpdate(
+          { classId: crCl.classId },
+          {
+            classId: crCl.classId,
+            subjectId: crCl.subjectId,
             subjectTitle: crCl.subjectTitle,
             group: crCl.group,
-            credit: crCl.credit,
+            credits: crCl.credits,
             classes: crCl.classes,
             schedule: crCl.schedule,
             students,
-          };
-        })
-      )
+          },
+          { upsert: true, setDefaultsOnInsert: true }
+        );
+      })
     );
   }
 };
