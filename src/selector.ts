@@ -8,6 +8,7 @@ export default {
     "#aspnetForm > div:nth-child(24) > div > table > tbody > tr:nth-child(2) > td > div.navigate-base > table > tbody > tr:nth-child(3) > td",
   FILTER_FORM_TYPE: "#ctl00_ContentPlaceHolder1_ctl00_ddlChon",
   FILTER_FORM_CLASS: "#ctl00_ContentPlaceHolder1_ctl00_ddlHienThiKQ",
+  FILTER_FORM_SUBJECT_TXT: "#ctl00_ContentPlaceHolder1_ctl00_txtloc",
   FILTER_FORM_SUBMIT: "#ctl00_ContentPlaceHolder1_ctl00_bntLocTKB",
 
   // Credit class
