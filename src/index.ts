@@ -11,7 +11,7 @@ import selector from "./selector";
   await connectDB();
 
   console.log(`Browser is starting..`);
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
   // Navigate to main page
