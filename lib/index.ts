@@ -3,29 +3,42 @@
 import program from "commander";
 import puppeteer from "puppeteer";
 
-import connectDB from "./db";
+import connectDatabase from "./connect";
 
 import config from "./config";
-import crawl from "./crawler";
-import selector from "./selector";
+import crawlStudySchedule from "./crawlStudySchedule";
 
-const run = async () => {
-  await connectDB();
-
+const startAndPrepareBrowser = async () => {
   console.log(`Browser is starting..`);
-  const browser = await puppeteer.launch();
+
+  const newBrowser = await puppeteer.launch();
+
+  return newBrowser;
+};
+
+const createAndSetupPage = async (browser: puppeteer.Browser) => {
   const page = await browser.newPage();
 
   await page.goto(config.url);
-  await page.click(selector.TKB_PAGE);
-  await page.waitForSelector(selector.OK_BUTTON);
-  await page.click(selector.OK_BUTTON);
 
-  await crawl(page, browser);
+  return page;
+};
+
+const run = async () => {
+  const browser = await startAndPrepareBrowser();
+
+  const sourcePage = await createAndSetupPage(browser);
+
+  await crawlStudySchedule(sourcePage, browser);
 
   await browser.close();
 };
 
-program.command("run").alias("r").description("Run the crawler").action(run);
+program.command("run").description("Run the crawler").action(run);
+
+program
+  .command("connect")
+  .description("Connect mongodb datasource")
+  .action(connectDatabase);
 
 program.parse(process.argv);
