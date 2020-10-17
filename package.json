@@ -2,11 +2,12 @@
   "name": "uis-ptit-crawler",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "bin": {
+    "uis-ptit": "./build/index.js"
+  },
   "scripts": {
-    "start": "node dist/index.js",
     "build": "tsc",
-    "dev": "ts-node src/index.ts"
+    "build:watch": "tsc --watch"
   },
   "repository": {
     "type": "git",

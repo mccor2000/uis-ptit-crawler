@@ -1,5 +1,7 @@
+#!/usr/bin/env node
+
+import program from "commander";
 import puppeteer from "puppeteer";
-// import { RegularClass } from "./models";
 
 import connectDB from "./db";
 
@@ -7,14 +9,13 @@ import config from "./config";
 import crawl from "./crawler";
 import selector from "./selector";
 
-(async () => {
+const run = async () => {
   await connectDB();
 
   console.log(`Browser is starting..`);
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
-  // Navigate to main page
   await page.goto(config.url);
   await page.click(selector.TKB_PAGE);
   await page.waitForSelector(selector.OK_BUTTON);
@@ -23,4 +24,8 @@ import selector from "./selector";
   await crawl(page, browser);
 
   await browser.close();
-})();
+};
+
+program.command("run").alias("r").description("Run the crawler").action(run);
+
+program.parse(process.argv);
