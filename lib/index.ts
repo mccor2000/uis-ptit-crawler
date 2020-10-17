@@ -3,7 +3,7 @@
 import program from "commander";
 import puppeteer from "puppeteer";
 
-import connectDatabase from "./db";
+import connectDatabase from "./connect";
 
 import config from "./config";
 import crawlStudySchedule from "./crawlStudySchedule";
