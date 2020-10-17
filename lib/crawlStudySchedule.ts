@@ -171,6 +171,12 @@ const getCreditClasses = async (page: puppeteer.Page) => {
 };
 
 export default async (page: puppeteer.Page, browser: puppeteer.Browser) => {
+  await page.click(selector.TKB_PAGE);
+
+  await page.waitForSelector(selector.OK_BUTTON);
+
+  await page.click(selector.OK_BUTTON);
+
   const classes = await getRegularClasses(page);
 
   for (const cl of classes!) {

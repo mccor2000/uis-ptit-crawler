@@ -6,7 +6,7 @@ import puppeteer from "puppeteer";
 import connectDatabase from "./db";
 
 import config from "./config";
-import crawlStudySchedule from "./crawler";
+import crawlStudySchedule from "./crawlStudySchedule";
 
 const startAndPrepareBrowser = async () => {
   console.log(`Browser is starting..`);
