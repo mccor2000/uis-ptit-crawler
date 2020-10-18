@@ -6,12 +6,11 @@ import puppeteer from "puppeteer";
 import connectDatabase from "./connect";
 
 import config from "./config";
-import crawlStudySchedule from "./crawlStudySchedule";
+import getScheduleCrawler from "./crawlStudySchedule";
 
 const startAndPrepareBrowser = async () => {
   console.log(`Browser is starting..`);
-
-  const newBrowser = await puppeteer.launch();
+  const newBrowser = await puppeteer.launch({ headless: false });
 
   return newBrowser;
 };
@@ -29,8 +28,12 @@ const run = async () => {
 
   const sourcePage = await createAndSetupPage(browser);
 
-  await crawlStudySchedule(sourcePage, browser);
+  const scheduleCrawler = await getScheduleCrawler(sourcePage);
+  const data = await scheduleCrawler.crawlScheduleOfSingleRegularClass(
+    "D18CQCN02-N"
+  );
 
+  console.table(data);
   await browser.close();
 };
 
