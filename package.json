@@ -7,15 +7,15 @@
   },
   "scripts": {
     "build": "tsc",
-    "build:watch": "tsc --watch"
+    "build:watch": "tsc --watch",
+    "test": ""
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mccor2000/uis-ptit-crawler.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Tran Minh Thang",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/mccor2000/uis-ptit-crawler/issues"
   },
