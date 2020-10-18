@@ -1,11 +1,12 @@
 import puppeteer from "puppeteer";
+
 import { getContentFromElement, getAttributeFromElement } from "../utils";
 import selector from "../selector";
 
 export const getAllCreditClassesDataFromHTMLElements = async (
   elements: puppeteer.ElementHandle[]
 ) => {
-  const creditClassesData = elements.map(async (ele, i) =>
+  const creditClassesData = elements.map((ele, i) =>
     getCreditClassDataFromHTMLElement(ele, i)
   );
 
@@ -32,16 +33,7 @@ export const getCreditClassDataFromHTMLElement = async (
     groupID,
     credits,
     classesBelong,
-    schedule: schedule
-      .filter((ele) => !Object.values(ele).every((prop) => prop === ""))
-      .map((ele) => ({
-        day: ele.day,
-        startTime: ele.startTime,
-        duration: ele.duration,
-        room: ele.room,
-        startDate: ele.startEndDate.split("--")[0],
-        endDate: ele.startEndDate.split("--")[1],
-      })),
+    schedule,
     studentListUrl,
   };
 
@@ -79,15 +71,28 @@ export const getCreditClassDataFromHTMLElement = async (
     const firstDay = await getFirstDayInWeek();
     const secondDay = await getSecondDayInWeek();
 
-    return [firstDay, secondDay];
+    return sanitizeAndParseSchedule([firstDay, secondDay]);
   }
 
   async function getStudentListUrl() {
     return getAttributeFromElement(
-      page,
+      element,
       selector.CLASS_STUDENT_LIST_URL(idx),
       "href"
     );
+  }
+
+  async function sanitizeAndParseSchedule(schedule: Array<any>) {
+    return schedule
+      .filter((ele) => !Object.values(ele).every((prop) => prop === ""))
+      .map((ele) => ({
+        day: ele.day,
+        startTime: ele.startTime,
+        duration: ele.duration,
+        room: ele.room,
+        startDate: ele.startEndDate.split("--")[0],
+        endDate: ele.startEndDate.split("--")[1],
+      }));
   }
 
   async function getFirstDayInWeek() {
@@ -134,6 +139,7 @@ export const getCreditClassDataFromHTMLElement = async (
       selector.CLASS_START_END_DATE_2(idx),
       element
     );
+
     return { day, startTime, duration, room, startEndDate };
   }
 };
