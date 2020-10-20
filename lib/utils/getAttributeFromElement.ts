@@ -4,9 +4,9 @@ export const getAttributeFromElement = async (
   element: puppeteer.ElementHandle,
   selector: string,
   property: string
-): Promise<string> => {
+): Promise<any> => {
   const elementHandle = await element.$(selector);
   const propertyHandle = await elementHandle!.getProperty(property);
 
-  return propertyHandle!.jsonValue() as Promise<string>;
+  return propertyHandle!.jsonValue() as Promise<any>;
 };
