@@ -47,7 +47,12 @@ export default {
   CLASS_DAY_2: (i: number) => {
     return `.grid-roll2 > table:nth-child(${
       i + 1
-    }) > tbody > tr > td:nth-child(9) > table > tbody > tr > td`;
+    }) > tbody > tr > td:nth-child(9) > table:nth-child(1) > tbody > tr > td`;
+  },
+  CLASS_DAY_3: (i: number) => {
+    return `.grid-roll2 > table:nth-child(${
+      i + 1
+    }) > tbody > tr > td:nth-child(9) > table:nth-child(2) > tbody > tr > td`;
   },
   CLASS_START_TIME: (i: number) => {
     return `.grid-roll2 > table:nth-child(${
@@ -57,7 +62,12 @@ export default {
   CLASS_START_TIME_2: (i: number) => {
     return `.grid-roll2 > table:nth-child(${
       i + 1
-    }) > tbody > tr > td:nth-child(10) > table > tbody > tr > td`;
+    }) > tbody > tr > td:nth-child(10) > table:nth-child(1) > tbody > tr > td`;
+  },
+  CLASS_START_TIME_3: (i: number) => {
+    return `.grid-roll2 > table:nth-child(${
+      i + 1
+    }) > tbody > tr > td:nth-child(10) > table:nth-child(2) > tbody > tr > td`;
   },
   CLASS_DURATION: (i: number) => {
     return `.grid-roll2 > table:nth-child(${
@@ -67,7 +77,12 @@ export default {
   CLASS_DURATION_2: (i: number) => {
     return `.grid-roll2 > table:nth-child(${
       i + 1
-    }) > tbody > tr > td:nth-child(11) > table > tbody > tr > td`;
+    }) > tbody > tr > td:nth-child(11) > table:nth-child(1) > tbody > tr > td`;
+  },
+  CLASS_DURATION_3: (i: number) => {
+    return `.grid-roll2 > table:nth-child(${
+      i + 1
+    }) > tbody > tr > td:nth-child(11) > table:nth-child(2) > tbody > tr > td`;
   },
   CLASS_ROOM: (i: number) => {
     return `.grid-roll2 > table:nth-child(${
@@ -77,7 +92,12 @@ export default {
   CLASS_ROOM_2: (i: number) => {
     return `.grid-roll2 > table:nth-child(${
       i + 1
-    }) > tbody > tr > td:nth-child(12) > table > tbody > tr > td`;
+    }) > tbody > tr > td:nth-child(12) > table:nth-child(1) > tbody > tr > td`;
+  },
+  CLASS_ROOM_3: (i: number) => {
+    return `.grid-roll2 > table:nth-child(${
+      i + 1
+    }) > tbody > tr > td:nth-child(12) > table:nth-child(1) > tbody > tr > td`;
   },
   CLASS_START_END_DATE: (i: number) => {
     return `.grid-roll2 > table:nth-child(${
@@ -87,7 +107,12 @@ export default {
   CLASS_START_END_DATE_2: (i: number) => {
     return `.grid-roll2 > table:nth-child(${
       i + 1
-    }) > tbody > tr > td:nth-child(14) > table > tbody > tr > td`;
+    }) > tbody > tr > td:nth-child(14) > table:nth-child(1) > tbody > tr > td`;
+  },
+  CLASS_START_END_DATE_3: (i: number) => {
+    return `.grid-roll2 > table:nth-child(${
+      i + 1
+    }) > tbody > tr > td:nth-child(14) > table:nth-child(2) > tbody > tr > td`;
   },
   CLASS_STUDENT_LIST_URL: (i: number) => {
     return `.grid-roll2 > table:nth-child(${
