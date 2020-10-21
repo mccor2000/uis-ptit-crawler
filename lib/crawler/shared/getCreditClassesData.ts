@@ -1,6 +1,6 @@
 import puppeteer from "puppeteer";
 
-import { getAllCreditClassesDataFromHTMLElements } from "../../workers";
+import { getAllCreditClassesDataFromHTMLElements } from "./getCreditClassesDataFromHTMLElements";
 import selector from "../../selector";
 
 export const getCreditClassesData = async (page: puppeteer.Page) => {
