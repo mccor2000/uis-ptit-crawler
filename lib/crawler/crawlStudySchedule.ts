@@ -1,6 +1,6 @@
 import puppeteer from "puppeteer";
 
-import crawlAllRegularClasses from "./crawlRegularClasses";
+import { getRegularClassesCrawler } from "./crawlRegularClasses";
 import { getCreditClassesData, preparePageForCrawling } from "./shared";
 
 import selector from "../selector";
@@ -15,7 +15,8 @@ export const getStudentScheduleCrawler = async (page: puppeteer.Page) => {
   };
 
   async function crawlScheduleOfSchool() {
-    const allRegularClasses = await crawlAllRegularClasses(page);
+    const crawlRegularClasses = await getRegularClassesCrawler(page);
+    const allRegularClasses = await crawlRegularClasses();
     let masterSchedule = [];
 
     for (const cl of allRegularClasses!) {

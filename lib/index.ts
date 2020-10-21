@@ -6,11 +6,12 @@ import puppeteer from "puppeteer";
 import connectDatabase from "./connect";
 
 import config from "./config";
-import { getStudentScheduleCrawler } from "./crawler";
+import { getRegularClassesCrawler } from "./crawler";
 
 const startAndPrepareBrowser = async () => {
   console.log(`Browser is starting..`);
   const newBrowser = await puppeteer.launch({
+    headless: false,
     executablePath: "/usr/bin/chromium",
   });
 
@@ -31,10 +32,9 @@ const run = async () => {
 
     const sourcePage = await createAndSetupPage(browser);
 
-    const scheduleCrawler = await getStudentScheduleCrawler(sourcePage);
-    const data = await scheduleCrawler.crawlScheduleOfStudent("n18dccn212");
+    const crawlRegularClasses = await getRegularClassesCrawler(sourcePage);
+    const data = await crawlRegularClasses();
     console.table(data);
-
     await browser.close();
   } catch (err) {
     console.log(err);
