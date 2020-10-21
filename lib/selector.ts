@@ -1,5 +1,5 @@
 export default {
-  // TKB page
+  // Schedule page
   SCHEDULE_PAGE: "#ctl00_menu_lblThoiKhoaBieu",
   SCHEDULE_PAGE_SUBMIT_BUTTON: "#ctl00_ContentPlaceHolder1_ctl00_btnOK",
   PERSONAL_SCHEDULE: "#ctl00_ContentPlaceHolder1_ctl00_radioMaSV",
@@ -126,24 +126,8 @@ export default {
   STUDENT_LIST: ".navigate-base > fieldset:nth-child(3)",
   STUDENT_INFO:
     "#ctl00_ContentPlaceHolder1_ctl00_gvDSSinhVien > tbody:nth-child(1) > tr",
-  STUDENT_ID: (i: number) => {
-    return `#ctl00_ContentPlaceHolder1_ctl00_gvDSSinhVien > tbody > tr:nth-child(${
-      i + 1
-    }) > td:nth-child(2) > span`;
-  },
-  STUDENT_LAST_NAME: (i: number) => {
-    return `#ctl00_ContentPlaceHolder1_ctl00_gvDSSinhVien > tbody > tr:nth-child(${
-      i + 1
-    }) > td:nth-child(3) > span`;
-  },
-  STUDENT_FIRST_NAME: (i: number) => {
-    return `#ctl00_ContentPlaceHolder1_ctl00_gvDSSinhVien > tbody > tr:nth-child(${
-      i + 1
-    }) > td:nth-child(4) > span`;
-  },
-  STUDENT_CLASS_ID: (i: number) => {
-    return `#ctl00_ContentPlaceHolder1_ctl00_gvDSSinhVien > tbody > tr:nth-child(${
-      i + 1
-    }) > td:nth-child(5) > span`;
-  },
+  STUDENT_ID: "td:nth-child(2) > span",
+  STUDENT_LAST_NAME: "td:nth-child(3) > span",
+  STUDENT_FIRST_NAME: "td:nth-child(4) > span",
+  STUDENT_CLASS_ID: "td:nth-child(5) > span",
 };
