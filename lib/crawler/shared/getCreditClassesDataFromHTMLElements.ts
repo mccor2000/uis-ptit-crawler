@@ -6,16 +6,15 @@ import selector from "../../selector";
 export const getAllCreditClassesDataFromHTMLElements = async (
   elements: puppeteer.ElementHandle[]
 ) => {
-  const creditClassesData = elements.map((ele, i) =>
-    getCreditClassDataFromHTMLElement(ele, i)
+  const creditClassesData = elements.map((ele) =>
+    getCreditClassDataFromHTMLElement(ele)
   );
 
   return Promise.all(creditClassesData);
 };
 
 export const getCreditClassDataFromHTMLElement = async (
-  element: puppeteer.ElementHandle,
-  idx: number
+  element: puppeteer.ElementHandle
 ) => {
   const creditClassID = await getCreditClassID();
   const subjectID = await getSubjectID();
@@ -26,7 +25,6 @@ export const getCreditClassDataFromHTMLElement = async (
   const schedule = await getSchedule();
   const studentListUrl = await getStudentListUrl();
 
-  console.log(schedule);
   return {
     creditClassID,
     subjectID,
@@ -49,23 +47,23 @@ export const getCreditClassDataFromHTMLElement = async (
   }
 
   async function getSubjectID() {
-    return getContentFromElement(selector.CLASS_SUBJECT_CODE(idx), element);
+    return getContentFromElement(selector.CLASS_SUBJECT_CODE, element);
   }
 
   async function getSubjectTitle() {
-    return getContentFromElement(selector.CLASS_SUBJECT_TITLE(idx), element);
+    return getContentFromElement(selector.CLASS_SUBJECT_TITLE, element);
   }
 
   async function getGroupID() {
-    return getContentFromElement(selector.CLASS_SUBJECT_GROUP(idx), element);
+    return getContentFromElement(selector.CLASS_SUBJECT_GROUP, element);
   }
 
   async function getCredits() {
-    return getContentFromElement(selector.CLASS_SUBJECT_CREDIT(idx), element);
+    return getContentFromElement(selector.CLASS_SUBJECT_CREDIT, element);
   }
 
   async function getClassesBelong() {
-    return getContentFromElement(selector.CLASS_CLASSES(idx), element);
+    return getContentFromElement(selector.CLASS_CLASSES, element);
   }
 
   async function getSchedule() {
@@ -79,7 +77,7 @@ export const getCreditClassDataFromHTMLElement = async (
   async function getStudentListUrl() {
     return getAttributeFromElement(
       element,
-      selector.CLASS_STUDENT_LIST_URL(idx),
+      selector.CLASS_STUDENT_LIST_URL,
       "href"
     );
   }
@@ -91,25 +89,22 @@ export const getCreditClassDataFromHTMLElement = async (
   }
 
   async function getFirstDayInWeek() {
-    const day = await getContentFromElement(selector.CLASS_DAY(idx), element);
+    const day = await getContentFromElement(selector.CLASS_DAY, element);
 
     const startPeriod = await getContentFromElement(
-      selector.CLASS_START_TIME(idx),
+      selector.CLASS_START_TIME,
       element
     );
 
     const numberOfPeriods = await getContentFromElement(
-      selector.CLASS_DURATION(idx),
+      selector.CLASS_DURATION,
       element
     );
 
-    const classroom = await getContentFromElement(
-      selector.CLASS_ROOM(idx),
-      element
-    );
+    const classroom = await getContentFromElement(selector.CLASS_ROOM, element);
 
     const startEndDate = await getContentFromElement(
-      selector.CLASS_START_END_DATE(idx),
+      selector.CLASS_START_END_DATE,
       element
     );
 
@@ -137,25 +132,25 @@ export const getCreditClassDataFromHTMLElement = async (
   }
 
   async function getSecondDayInWeek() {
-    const day = await getContentFromElement(selector.CLASS_DAY_2(idx), element);
+    const day = await getContentFromElement(selector.CLASS_DAY_2, element);
 
     const startPeriod = await getContentFromElement(
-      selector.CLASS_START_TIME_2(idx),
+      selector.CLASS_START_TIME_2,
       element
     );
 
     const numberOfPeriods = await getContentFromElement(
-      selector.CLASS_DURATION_2(idx),
+      selector.CLASS_DURATION_2,
       element
     );
 
     const classroom = await getContentFromElement(
-      selector.CLASS_ROOM_2(idx),
+      selector.CLASS_ROOM_2,
       element
     );
 
     const startEndDate = await getContentFromElement(
-      selector.CLASS_START_END_DATE_2(idx),
+      selector.CLASS_START_END_DATE_2,
       element
     );
 
@@ -189,25 +184,25 @@ export const getCreditClassDataFromHTMLElement = async (
   }
 
   async function getThirdDayInWeek() {
-    const day = await getContentFromElement(selector.CLASS_DAY_3(idx), element);
+    const day = await getContentFromElement(selector.CLASS_DAY_3, element);
 
     const startPeriod = await getContentFromElement(
-      selector.CLASS_START_TIME_3(idx),
+      selector.CLASS_START_TIME_3,
       element
     );
 
     const numberOfPeriods = await getContentFromElement(
-      selector.CLASS_DURATION_3(idx),
+      selector.CLASS_DURATION_3,
       element
     );
 
     const classroom = await getContentFromElement(
-      selector.CLASS_ROOM_3(idx),
+      selector.CLASS_ROOM_3,
       element
     );
 
     const startEndDate = await getContentFromElement(
-      selector.CLASS_START_END_DATE_3(idx),
+      selector.CLASS_START_END_DATE_3,
       element
     );
 

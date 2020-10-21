@@ -5,7 +5,7 @@ import { getCreditClassesData, preparePageForCrawling } from "./shared";
 
 import selector from "../selector";
 
-export const getStudentScheduleCrawler = async (page: puppeteer.Page) => {
+export const getStudyScheduleCrawler = async (page: puppeteer.Page) => {
   const preparedPage = await preparePageForCrawling(page);
 
   return {
