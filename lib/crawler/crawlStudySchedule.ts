@@ -1,11 +1,11 @@
 import puppeteer from "puppeteer";
 
 import crawlAllRegularClasses from "./crawlRegularClasses";
-import { getAllCreditClassesDataFromHTMLElements } from "./workers";
+import { getCreditClassesData, preparePageForCrawling } from "./shared";
 
-import selector from "./selector";
+import selector from "../selector";
 
-export default async (page: puppeteer.Page) => {
+export const getStudentScheduleCrawler = async (page: puppeteer.Page) => {
   const preparedPage = await preparePageForCrawling(page);
 
   return {
@@ -36,11 +36,7 @@ export default async (page: puppeteer.Page) => {
     await preparedPage.click(selector.FILTER_FORM_SUBMIT);
     await preparedPage.waitForSelector(selector.CREDIT_CLASS);
 
-    const creditClassHTMLElements = await preparedPage.$$(
-      selector.CREDIT_CLASS
-    );
-
-    return getAllCreditClassesDataFromHTMLElements(creditClassHTMLElements);
+    return getCreditClassesData(preparedPage);
   }
 
   async function crawlScheduleOfStudent(studentID: string) {
@@ -54,17 +50,6 @@ export default async (page: puppeteer.Page) => {
     await preparedPage.select(selector.SCHEDULE_TYPE, "1");
     await preparedPage.waitForSelector(selector.CREDIT_CLASS);
 
-    const creditClassHTMLElements = await preparedPage.$$(
-      selector.CREDIT_CLASS
-    );
-
-    return getAllCreditClassesDataFromHTMLElements(creditClassHTMLElements);
+    return getCreditClassesData(preparedPage);
   }
-};
-
-const preparePageForCrawling = async (page: puppeteer.Page) => {
-  await page.click(selector.SCHEDULE_PAGE);
-  await page.waitForSelector("#id_form");
-
-  return page;
 };

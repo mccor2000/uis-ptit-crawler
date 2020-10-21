@@ -1,7 +1,7 @@
 import puppeteer from "puppeteer";
 
-import { getContentFromElement, getAttributeFromElement } from "../utils";
-import selector from "../selector";
+import { getContentFromElement, getAttributeFromElement } from "../../utils";
+import selector from "../../selector";
 
 export const getAllCreditClassesDataFromHTMLElements = async (
   elements: puppeteer.ElementHandle[]
