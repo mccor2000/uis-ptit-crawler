@@ -1,8 +1,11 @@
 export default {
   // TKB page
-  TKB_PAGE: "#ctl00_menu_lblThoiKhoaBieu",
-  OK_BUTTON: "#ctl00_ContentPlaceHolder1_ctl00_btnOK",
+  SCHEDULE_PAGE: "#ctl00_menu_lblThoiKhoaBieu",
+  SCHEDULE_PAGE_SUBMIT_BUTTON: "#ctl00_ContentPlaceHolder1_ctl00_btnOK",
+  PERSONAL_SCHEDULE: "#ctl00_ContentPlaceHolder1_ctl00_radioMaSV",
+  PERSONAL_SCHEDULE_OPTION_INPUT: "#ctl00_ContentPlaceHolder1_ctl00_txtMaSV",
 
+  SCHEDULE_TYPE: "#ctl00_ContentPlaceHolder1_ctl00_ddlLoai",
   // Filter form
   FILTER_FORM:
     "#aspnetForm > div:nth-child(24) > div > table > tbody > tr:nth-child(2) > td > div.navigate-base > table > tbody > tr:nth-child(3) > td",
@@ -97,7 +100,7 @@ export default {
   CLASS_ROOM_3: (i: number) => {
     return `.grid-roll2 > table:nth-child(${
       i + 1
-    }) > tbody > tr > td:nth-child(12) > table:nth-child(1) > tbody > tr > td`;
+    }) > tbody > tr > td:nth-child(12) > table:nth-child(2) > tbody > tr > td`;
   },
   CLASS_START_END_DATE: (i: number) => {
     return `.grid-roll2 > table:nth-child(${

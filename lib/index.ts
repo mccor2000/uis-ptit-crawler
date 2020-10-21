@@ -10,7 +10,9 @@ import getScheduleCrawler from "./crawlStudySchedule";
 
 const startAndPrepareBrowser = async () => {
   console.log(`Browser is starting..`);
-  const newBrowser = await puppeteer.launch();
+  const newBrowser = await puppeteer.launch({
+    executablePath: "/usr/bin/chromium",
+  });
 
   return newBrowser;
 };
@@ -30,9 +32,7 @@ const run = async () => {
     const sourcePage = await createAndSetupPage(browser);
 
     const scheduleCrawler = await getScheduleCrawler(sourcePage);
-    const data = await scheduleCrawler.crawlScheduleOfSingleRegularClass(
-      "D18CQCN02-N"
-    );
+    const data = await scheduleCrawler.crawlScheduleOfStudent("n18dccn212");
     console.table(data);
 
     await browser.close();

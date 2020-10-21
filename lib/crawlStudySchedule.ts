@@ -10,7 +10,7 @@ export default async (page: puppeteer.Page) => {
 
   return {
     crawlScheduleOfSchool,
-    crawlScheduleOfSingleRegularClass,
+    crawlScheduleOfRegularClass,
     crawlScheduleOfStudent,
   };
 
@@ -19,14 +19,16 @@ export default async (page: puppeteer.Page) => {
     let masterSchedule = [];
 
     for (const cl of allRegularClasses!) {
-      const creditClassesData = await crawlScheduleOfSingleRegularClass(cl);
+      const creditClassesData = await crawlScheduleOfRegularClass(cl);
       masterSchedule.push(creditClassesData);
     }
 
     return masterSchedule;
   }
 
-  async function crawlScheduleOfSingleRegularClass(regularClassID: string) {
+  async function crawlScheduleOfRegularClass(regularClassID: string) {
+    await preparedPage.waitForSelector(selector.SCHEDULE_PAGE_SUBMIT_BUTTON);
+    await preparedPage.click(selector.SCHEDULE_PAGE_SUBMIT_BUTTON);
     await preparedPage.waitForSelector(selector.FILTER_FORM_TYPE);
     await preparedPage.select(selector.FILTER_FORM_TYPE, "l");
     await preparedPage.waitForSelector(selector.FILTER_FORM_CLASS);
@@ -41,13 +43,28 @@ export default async (page: puppeteer.Page) => {
     return getAllCreditClassesDataFromHTMLElements(creditClassHTMLElements);
   }
 
-  async function crawlScheduleOfStudent(_studentID: string) {}
+  async function crawlScheduleOfStudent(studentID: string) {
+    await preparedPage.waitForSelector(selector.PERSONAL_SCHEDULE);
+    await preparedPage.click(selector.PERSONAL_SCHEDULE);
+    await preparedPage.waitForSelector(selector.PERSONAL_SCHEDULE_OPTION_INPUT);
+    await preparedPage.type(selector.PERSONAL_SCHEDULE_OPTION_INPUT, studentID);
+    await preparedPage.waitForSelector(selector.SCHEDULE_PAGE_SUBMIT_BUTTON);
+    await preparedPage.click(selector.SCHEDULE_PAGE_SUBMIT_BUTTON);
+    await preparedPage.waitForSelector(selector.SCHEDULE_TYPE);
+    await preparedPage.select(selector.SCHEDULE_TYPE, "1");
+    await preparedPage.waitForSelector(selector.CREDIT_CLASS);
+
+    const creditClassHTMLElements = await preparedPage.$$(
+      selector.CREDIT_CLASS
+    );
+
+    return getAllCreditClassesDataFromHTMLElements(creditClassHTMLElements);
+  }
 };
 
 const preparePageForCrawling = async (page: puppeteer.Page) => {
-  await page.click(selector.TKB_PAGE);
-  await page.waitForSelector(selector.OK_BUTTON);
-  await page.click(selector.OK_BUTTON);
+  await page.click(selector.SCHEDULE_PAGE);
+  await page.waitForSelector("#id_form");
 
   return page;
 };
