@@ -1,7 +1,7 @@
 import puppeteer from "puppeteer";
 
-import selector from "./selector";
-import { getContentFromElements } from "./utils";
+import selector from "../selector";
+import { getContentFromElements } from "../utils";
 
 export default async (page: puppeteer.Page) => {
   await page.waitForSelector(selector.FILTER_FORM);

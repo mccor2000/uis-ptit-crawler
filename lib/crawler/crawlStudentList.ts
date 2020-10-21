@@ -1,7 +1,7 @@
 import puppeteer from "puppeteer";
 
-import { getContentFromElement } from "./utils";
-import selector from "./selector";
+import { getContentFromElement } from "../utils";
+import selector from "../selector";
 
 export const getStudentList = async (page: puppeteer.Page) => {
   const studentElements = await page.$$(selector.STUDENT_INFO);

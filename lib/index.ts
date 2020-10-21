@@ -6,7 +6,7 @@ import puppeteer from "puppeteer";
 import connectDatabase from "./connect";
 
 import config from "./config";
-import getScheduleCrawler from "./crawlStudySchedule";
+import { getStudentScheduleCrawler } from "./crawler";
 
 const startAndPrepareBrowser = async () => {
   console.log(`Browser is starting..`);
@@ -31,7 +31,7 @@ const run = async () => {
 
     const sourcePage = await createAndSetupPage(browser);
 
-    const scheduleCrawler = await getScheduleCrawler(sourcePage);
+    const scheduleCrawler = await getStudentScheduleCrawler(sourcePage);
     const data = await scheduleCrawler.crawlScheduleOfStudent("n18dccn212");
     console.table(data);
 

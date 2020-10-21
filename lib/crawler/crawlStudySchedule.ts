@@ -1,11 +1,11 @@
 import puppeteer from "puppeteer";
 
 import crawlAllRegularClasses from "./crawlRegularClasses";
-import { getAllCreditClassesDataFromHTMLElements } from "./workers";
+import { getAllCreditClassesDataFromHTMLElements } from "../workers";
 
-import selector from "./selector";
+import selector from "../selector";
 
-export default async (page: puppeteer.Page) => {
+export const getStudentScheduleCrawler = async (page: puppeteer.Page) => {
   const preparedPage = await preparePageForCrawling(page);
 
   return {
