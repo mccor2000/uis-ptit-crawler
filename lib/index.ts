@@ -6,7 +6,10 @@ import puppeteer from "puppeteer";
 import connectDatabase from "./connect";
 
 import config from "./config";
-import { getStudentListCrawler, getStudyScheduleCrawler } from "./crawler";
+import {
+  createStudentListCrawler,
+  createStudyScheduleCrawler,
+} from "./crawler";
 
 const startAndPrepareBrowser = async () => {
   console.log(`Browser is starting..`);
@@ -32,13 +35,13 @@ const run = async () => {
 
     const sourcePage = await createAndSetupPage(browser);
 
-    const crawlStudentList = await getStudentListCrawler(sourcePage);
+    const crawlStudentList = await createStudentListCrawler(sourcePage);
     const studentsList = await crawlStudentList(
       "http://uis.ptithcm.edu.vn/Default.aspx?page=danhsachsvtheonhomhoc&malop=D18CQCN02-N&madk=BAS114604"
     );
     console.table(studentsList);
 
-    const studyScheduleCrawler = await getStudyScheduleCrawler(sourcePage);
+    const studyScheduleCrawler = await createStudyScheduleCrawler(sourcePage);
     const schedule = await studyScheduleCrawler.crawlScheduleOfRegularClass(
       "D18CQCN02-N"
     );
@@ -51,6 +54,7 @@ const run = async () => {
 };
 
 program.command("run").description("Run the crawler").action(run);
+program.option("-a, --all", "Get all the schedules, students info");
 
 program
   .command("connect")

@@ -3,7 +3,7 @@ import puppeteer from "puppeteer";
 import { getContentFromElement } from "../utils";
 import selector from "../selector";
 
-export const getStudentListCrawler = async (page: puppeteer.Page) => {
+export const createStudentListCrawler = async (page: puppeteer.Page) => {
   return async function (pageUrl: string) {
     await page.goto(pageUrl);
     await page.waitForSelector(selector.STUDENT_LIST);
