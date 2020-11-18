@@ -4,7 +4,7 @@ import selector from "../selector";
 import { getContentFromElements } from "../utils";
 import { preparePageForCrawling } from "./shared";
 
-export const getRegularClassesCrawler = async (page: puppeteer.Page) => {
+export const createRegularClassesCrawler = async (page: puppeteer.Page) => {
   const preparedPage = await preparePageForCrawling(page);
 
   return async function () {
